@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  
+ *
+ * @category    
+ * @package     
+ * @copyright   Copyright (c) 2013 Mps Sistemi (http://www.mps-sistemi.it)
+ * @author      MPS Sistemi S.a.s - Marco Mancinelli <marco.mancinelli@mps-sistemi.it>
+ *
+ */
+-->
+
+<config>
+    <tabs>
+        <!-- Aggiunto perchè potrbbe vivere di vita propria -->
+        <mpssettings> 
+            <label>Mps Sistemi Settings</label>
+            <sort_order>999</sort_order>
+        </mpssettings>
+    </tabs> 
+    <sections>
+        <mpsgui translate="label" module="mpsgui">
+            <label>Import export profile settings</label>
+            <tab>mpssettings</tab>
+            <sort_order>600</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <blomming translate="label" module="mpsgui">
+                    <label>Esportazione custom Per Blomming</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>          
+                    <fields>
+                        <product_is_enabled>
+                            <label>Abilita prodotti </label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Abilita il profilo di esportazione per i prodotti blomming<br>
+                                Fare riferimento alla guida on-line di <a target="_BLANK" href="http://help.blomming.com/caricamento-di-massa-come-caricare-piu-prodotti-contemporaneamente/">blomming</a>
+                            ]]></comment>                        
+                        </product_is_enabled>
+                        <product_shipping_profile>
+                            <label>Shipping Profile</label>
+                            <frontend_type>text</frontend_type>                            
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate-alphanum></validate-alphanum>
+                            <comment><![CDATA[Rappresenta il profilo di spedizione da associare al prodotto.<br>
+                                Se si voglio associare profili diversi in base al prodotto abilitare l'attributo blomming_shipping_profile.<br>
+                                Si possono inserire solo Profili di Spedizione già presenti nel proprio Shop Blomming, scritti esattamente nello stesso modo. 
+                                Per vedere i tuoi attuali profili di spedizione o per crearne di nuovi basta andare <a taget="_BLANK" href="http://www.blomming.com/settings/shipping_profiles">qui</a>
+                            ]]></comment>                        
+                        </product_shipping_profile>
+                        <product_category>
+                            <label>Category</label>
+                            <frontend_type>text</frontend_type>                            
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate-alphanum></validate-alphanum>
+                            <comment><![CDATA[Rappresenta la categoria o le categorie Blomming a cui il prodotto appartiene.<br>
+                                Se si voglio associare le categorie in base alle categorie dello store usare l'attributo 
+                                Categoria Blomming (blomming_category) presente nella configurazione delle categorie.<br>
+                                Le categorie possibili da inserire in questo campo sono quelle presenti nel menu a tendina del form di 
+                                caricamento di un prodotto singolo nello Shop Blomming e vanno scritte esattamente nello stesso modo. 
+                                Puoi inserire fino a 3 valori separati da virgola, con il formato: “macrocategoria:categoria”.
+                            ]]></comment>                        
+                        </product_category>
+                    </fields>
+                </blomming>
+            </groups>            
+        </mpsgui>
+    </sections>
+</config>
