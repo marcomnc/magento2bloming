@@ -35,6 +35,33 @@
                 <class>MpsSistemi_Gui_Helper</class>
             </mpsgui>
         </helpers>
+        
+        <blocks>
+            <mpsgui>
+                <class>MpsSistemi_Gui_Block</class>
+            </mpsgui>
+            <adminhtml>
+                <rewrite>
+                    <system_convert_gui_edit_tab_wizard>MpsSistemi_Gui_Block_Adminhtml_System_Convert_Gui_Edit_Tab_Wizard</system_convert_gui_edit_tab_wizard>
+                </rewrite>
+            </adminhtml>
+            <adminhtml>
+                <rewrite>
+                    <system_convert_gui_grid>MpsSistemi_Gui_Block_Adminhtml_System_Convert_Gui_Grid</system_convert_gui_grid>
+                </rewrite>
+            </adminhtml>            
+        </blocks>
+        
+        <models>
+            <mpsgui>
+                <class>MpsSistemi_Gui_Model</class>
+            </mpsgui>
+            <dataflow>
+                <rewrite>
+                    <profile>MpsSistemi_Gui_Model_Dataflow_Profile</profile>
+                </rewrite>
+            </dataflow>
+        </models>
 
     </global>
     

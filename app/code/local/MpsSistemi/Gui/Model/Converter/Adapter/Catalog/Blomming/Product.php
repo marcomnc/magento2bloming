@@ -22,39 +22,13 @@
  *
  */
 
-class MpsSistemi_Gui_Helper_Data extends Mage_Core_Helper_Abstract {
-    
-    
-    /**
-     * Recupera un configurazione per blomming relativa all'esportazione prodotti
-     * @param type $key
-     * @return type
-     */
-    public function getBlommingProductConfig ($key) {
-
-        return $this->getBlommingConfig("product_$key");
+class MpsSistemi_Gui_Model_Converter_Adapter_Catalog_Blomming_Product extends Mage_Catalog_Model_Convert_Adapter_Product
+{
+    public function load() {
+        
+        parent::load();
+        
+        print_R($this->_parseVars());
         
     }
-    
-    /**
-     * Recupera un configurazione per blomming
-     * @param type $key
-     * @return type
-     */
-    public function getBlommingConfig($key) {
-        
-        return $this->getConfig("blomming/$key");
-        
-    }
-    
-    /**
-     * Recupero la configurazione
-     * @param type $key
-     * @return type
-     */
-    public function getConfig($key) {
-        $keyComplete = "mpsgui/$key";
-        return Mage::getStoreConfig($keyComplete);
-    }
-    
 }

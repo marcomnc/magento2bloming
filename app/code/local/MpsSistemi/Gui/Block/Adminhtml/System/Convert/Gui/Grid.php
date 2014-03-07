@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,39 +23,17 @@
  *
  */
 
-class MpsSistemi_Gui_Helper_Data extends Mage_Core_Helper_Abstract {
+class MpsSistemi_Gui_Block_Adminhtml_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_System_Convert_Gui_Grid {
     
     
-    /**
-     * Recupera un configurazione per blomming relativa all'esportazione prodotti
-     * @param type $key
-     * @return type
-     */
-    public function getBlommingProductConfig ($key) {
-
-        return $this->getBlommingConfig("product_$key");
+    protected function _prepareColumns() {
         
-    }
-    
-    /**
-     * Recupera un configurazione per blomming
-     * @param type $key
-     * @return type
-     */
-    public function getBlommingConfig($key) {
+        parent::_prepareColumns();
         
-        return $this->getConfig("blomming/$key");
+        $coll = $this->getColumn('entity_type');
         
+        if ($this->helper('mpsgui')->getBlommingProductConfig('is_enabled')) {
+            $coll->setData('options', array('product'=>'Products', 'customer'=>'Customers', "product_blomming" => $this->__("Products for Blomming")));
+        }        
     }
-    
-    /**
-     * Recupero la configurazione
-     * @param type $key
-     * @return type
-     */
-    public function getConfig($key) {
-        $keyComplete = "mpsgui/$key";
-        return Mage::getStoreConfig($keyComplete);
-    }
-    
 }
