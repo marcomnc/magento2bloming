@@ -23,7 +23,15 @@
  */
 
 class MpsSistemi_Gui_Model_Dataflow_Profile extends Mage_Dataflow_Model_Profile {
+  
     
+    protected function _beforeSave()
+    {
+                
+        $this->setData('gui_data', Mage::Helper('mpsgui')->NormalizeGuiData($this->getData('gui_data')));
+        parent::_beforeSave();               
+        
+    }
     /**
      * Override della funzione per gestire le altre tipologie di export/import
      * @return \MpsSistemi_Gui_Model_Dataflow_Profile

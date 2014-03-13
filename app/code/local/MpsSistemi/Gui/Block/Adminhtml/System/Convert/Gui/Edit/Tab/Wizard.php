@@ -52,14 +52,13 @@ class MpsSistemi_Gui_Block_Adminhtml_System_Convert_Gui_Edit_Tab_Wizard extends 
                 $myCat[$c->getId()] = $c->getName();
             
         }
-        
-        echo "</pre>";
         $field = New Varien_Data_Form_Element_Custommultiselect( array(
                 'id'        => 'category',
                 'label'     => Mage::helper('catalog')->__('Category'),
                 'title'     => Mage::helper('catalog')->__('Category'),
                 'name'      => "gui_data[$id][filter][category]",
                 'values'    => $myCat,
+                'value'     => $this->getData('gui_data/product_blomming/filter/category'),
             ));
         $form = new Varien_Data_Form();
         return $field->setForm($form->setHtmlIdPrefix('product_filter_'))->toHtml();

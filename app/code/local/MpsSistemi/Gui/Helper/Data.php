@@ -57,4 +57,26 @@ class MpsSistemi_Gui_Helper_Data extends Mage_Core_Helper_Abstract {
         return Mage::getStoreConfig($keyComplete);
     }
     
+    
+    public function NormalizeGuiData($data) {
+        
+        $newData = array();
+        
+        foreach ($data as $k => $v) {
+            
+            switch ($k) {
+                case "product_blomming":
+                    $newData[$k] = Mage::Helper('mpsgui/blomming')->NomalizePropductFilter($v);
+                    break;
+                default:
+                    $newData[$k] = $v;
+                        
+            }
+            
+        }
+
+        return $newData;
+        
+    }
+    
 }

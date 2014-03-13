@@ -502,19 +502,19 @@ echo "</pre>";
             <div class="profile_entity_type_product_blomming">
                 <span class="field-row">
                     <label for="product_filter_name"><?php echo $this->__("Name:") ?></label>
-                    <input class="input-text" id="product_filter_name" name="gui_data[product_blomming][filter][name]" value="<?php echo $this->getValue('gui_data/product/filter/name') ?>"/>
+                    <input class="input-text" id="product_filter_name" name="gui_data[product_blomming][filter][name]" value="<?php echo $this->getValue('gui_data/product_blomming/filter/name') ?>"/>
                     <?php echo $this->__('(Starting with)') ?>
                 </span>
                 <span class="field-row">
                     <label for="product_filter_sku"><?php echo $this->__("SKU:") ?></label>
-                    <input class="input-text" id="product_filter_sku" name="gui_data[product_blomming][filter][sku]" value="<?php echo $this->getValue('gui_data/product/filter/sku') ?>"/>
+                    <input class="input-text" id="product_filter_sku" name="gui_data[product_blomming][filter][sku]" value="<?php echo $this->getValue('gui_data/product_blomming/filter/sku') ?>"/>
                     <?php echo $this->__('(Starting with)') ?>
                 </span>
                 <span class="field-row">
                     <label for="product_filter_type"><?php echo $this->__("Type:") ?></label>
                     <select id="product_filter_type" name="gui_data[product_blomming][filter][type]">
                         <?php foreach ($this->getProductTypeFilterOptions() as $_value=>$_label): ?>
-                            <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product/filter/type', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>
+                            <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product_blomming/filter/type', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>
                         <?php endforeach ?>
                     </select>
                 </span>
@@ -522,25 +522,25 @@ echo "</pre>";
                     <label for="product_filter_attribute_set"><?php echo $this->__("Attribute Set Name:") ?></label>
                     <select id="product_filter_attribute_set" name="gui_data[product_blomming][filter][attribute_set]">
                         <?php foreach ($this->getProductAttributeSetFilterOptions() as $_value=>$_label): ?>
-                            <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product/filter/attribute_set', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>
+                            <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product_blomming/filter/attribute_set', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>
                         <?php endforeach ?>
                     </select>
                 </span>
                 <span class="field-row">
                     <label for="product_filter_price_from"><?php echo $this->__("Price:") ?></label>
-                    <input class="input-text" style="width:5em" id="product_filter_price_from" name="gui_data[product_blomming][filter][price][from]" value="<?php echo $this->getValue('gui_data/product/filter/price/from') ?>"/> <?php echo $this->__('to') ?>
-                    <input class="input-text" style="width:5em" id="product_filter_price_to" name="gui_data[product_blomming][filter][price][to]" value="<?php echo $this->getValue('gui_data/product/filter/price/to') ?>"/>
+                    <input class="input-text" style="width:5em" id="product_filter_price_from" name="gui_data[product_blomming][filter][price][from]" value="<?php echo $this->getValue('gui_data/product_blomming/filter/price/from') ?>"/> <?php echo $this->__('to') ?>
+                    <input class="input-text" style="width:5em" id="product_filter_price_to" name="gui_data[product_blomming][filter][price][to]" value="<?php echo $this->getValue('gui_data/product_blomming/filter/price/to') ?>"/>
                 </span>
                 <span class="field-row">
                     <label for="product_filter_qty_from"><?php echo $this->__("Stock Quantity:") ?></label>
-                    <input class="input-text" style="width:5em" id="product_filter_qty_from" name="gui_data[product_blomming][filter][qty][from]" value="<?php echo $this->getValue('gui_data/product/filter/qty/from') ?>"/> <?php echo $this->__('to') ?>
-                    <input class="input-text" style="width:5em" id="product_filter_qty_to" name="gui_data[product_blomming][filter][qty][to]" value="<?php echo $this->getValue('gui_data/product/filter/qty/to') ?>"/>
+                    <input class="input-text" style="width:5em" id="product_filter_qty_from" name="gui_data[product_blomming][filter][qty][from]" value="<?php echo $this->getValue('gui_data/product_blomming/filter/qty/from') ?>"/> <?php echo $this->__('to') ?>
+                    <input class="input-text" style="width:5em" id="product_filter_qty_to" name="gui_data[product_blomming][filter][qty][to]" value="<?php echo $this->getValue('gui_data/product_blomming/filter/qty/to') ?>"/>
                 </span>
                 <span class="field-row">
                     <label for="product_filter_visibility"><?php echo $this->__("Visibility:") ?></label>
                     <select id="product_filter_visibility" name="gui_data[product_blomming][filter][visibility]">
                         <?php foreach ($this->getProductVisibilityFilterOptions() as $_value=>$_label): ?>
-                            <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product/filter/visibility', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>
+                            <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product_blomming/filter/visibility', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>
                         <?php endforeach ?>
                     </select>
                 </span>
@@ -548,21 +548,16 @@ echo "</pre>";
                     <label for="product_filter_status"><?php echo $this->__("Status:") ?></label>
                     <select id="product_filter_status" name="gui_data[product_blomming][filter][status]">
                         <?php foreach ($this->getProductStatusFilterOptions() as $_value=>$_label): ?>
-                            <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product/filter/status', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>
+                            <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product_blomming/filter/status', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>
                         <?php endforeach ?>
                     </select>
                 </span>
                 <span class="field-row">
-                    <label for="product_filter_category"><?php echo $this->__("Status:") ?></label>
+                    <label for="product_filter_category"><?php echo $this->__("Cagegory:") ?></label>
                     
                     <?php 
                         echo $this->getSelectCategoryList();
-                    ?>
-                    <!--<select id="product_filter_category" name="gui_data[product][filter][category]">
-                        <?php foreach ($this->getProductStatusFilterOptions() as $_value=>$_label): ?>
-                            <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product/filter/status', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>
-                        <?php endforeach ?>
-                    </select>-->
+                    ?>                    
                 </span>
             </div>
             <div class="profile_entity_type_customer">
