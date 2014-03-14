@@ -26,7 +26,7 @@
 <config>
     <modules>
         <MpsSistemi_Gui>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </MpsSistemi_Gui>
     </modules>
     <global>
@@ -62,10 +62,54 @@
                 </rewrite>
             </dataflow>
         </models>
+        <resources>
+            <mpsgui_setup>
+                <setup>
+                    <module>MpsSistemi_Gui</module>                    
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>                
+                <connection>
+                    <use>core_setup</use>
+                </connection>                
+            </mpsgui_setup>            
+            <mpsgui_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </mpsgui_write>
+            <mpsgui_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </mpsgui_read>
+        </resources>
 
     </global>
     
+    <admin>
+        <routers>
+            <mpsgui>
+                <use>admin</use>
+                    <args>
+                        <module>MpsSistemi_Gui</module>
+                        <frontName>mpsgui</frontName>
+                    </args>
+            </mpsgui>
+        </routers>        
+    </admin>
+    
     <adminhtml>
+<!-- Serve per simulare il calcolo dei prezzi di catalogo -->        
+        <events>
+            <mpsgui_adminhtml_product_get_final_price>
+                <observers>
+                    <catalogrule>
+                        <class>catalogrule/observer</class>
+                        <method>processFrontFinalPrice</method>
+                    </catalogrule>
+                </observers>
+            </mpsgui_adminhtml_product_get_final_price>
+        </events>
         <acl>
             <resources>
                 <admin>

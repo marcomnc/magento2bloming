@@ -85,9 +85,31 @@
                                 Categoria Blomming (blomming_category) presente nella configurazione delle categorie.<br>
                                 Le categorie possibili da inserire in questo campo sono quelle presenti nel menu a tendina del form di 
                                 caricamento di un prodotto singolo nello Shop Blomming e vanno scritte esattamente nello stesso modo. 
-                                Puoi inserire fino a 3 valori separati da virgola, con il formato: “macrocategoria:categoria”.
+                                Puoi inserire fino a 3 valori separati da virgola, con il formato: "macrocategoria:categoria".
                             ]]></comment>                        
                         </product_category>
+                        <product_category_generate_attribute>
+                            <label>Genera attributo per categorie</label>
+                            <frontend_type>gui_blomming_autocreatecategoryattribute</frontend_type>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Cliccando qui si genera nelle categorie l'attributo su cui mettere la trascodifica Blomming]]></comment>
+                        </product_category_generate_attribute>
+                        <export_collection>
+                            <label>Esporta collezioni</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[Se attivo vengono esportare le Collections verso Blomming. 
+                                    Fare riferimento alla guida on-line di <a target="_BLANK" href="http://help.blomming.com/caricamento-di-massa-come-caricare-piu-prodotti-contemporaneamente/">blomming</a>
+                            ]]></comment>                        
+                        </export_collection>
+                        
                     </fields>
                 </blomming>
             </groups>            

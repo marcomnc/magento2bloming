@@ -16,19 +16,26 @@
  *  
  *
  * @category    
- * @package     
+ * @package        
  * @copyright   Copyright (c) 2013 Mps Sistemi (http://www.mps-sistemi.it)
  * @author      MPS Sistemi S.a.s - Marco Mancinelli <marco.mancinelli@mps-sistemi.it>
  *
  */
 
-class MpsSistemi_Gui_Model_Converter_Adapter_Catalog_Blomming_Product extends Mage_Catalog_Model_Convert_Adapter_Product
+class Varien_Data_Form_Element_Gui_Blomming_Autocreatecategoryattribute extends Varien_Data_Form_Element_Abstract
 {
-    public function load() {
+    public function getElementHtml()
+    {
+        $buttonBlock = $this->getForm()->getParent()->getLayout()->createBlock('adminhtml/widget_button');
         
-        parent::load();
-        
-        print_R($this->_parseVars());
-        
+        $data = array(
+            'label'     => Mage::helper('adminhtml')->__('Autogen. cat. Attribute'),
+            'onclick'   => 'setLocation(\''.Mage::helper('adminhtml')->getUrl("mpsgui/blomming/autogeneratecategory/") . '\');',
+            'class'     => '',
+        );
+
+        $html = $buttonBlock->setData($data)->toHtml();
+
+        return $html;
     }
 }

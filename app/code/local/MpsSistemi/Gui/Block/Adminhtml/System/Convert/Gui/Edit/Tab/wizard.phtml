@@ -37,6 +37,10 @@
 <script type="text/javascript">
 //<![CDATA[
 var profileImportOnly = ['profile_number_of_records', 'profile_decimal_separator'];
+var profilePlus = [{
+    profile : 'product_blomming',
+    field : ['profile_blomming_published_status', 'profile_blomming_categories']   
+}];
 function showOption(select)
 {
     select = $(select);
@@ -127,6 +131,17 @@ function changeEntityType()
     //toggleSelectOption('remove', 'profile_entity_type', 'profile_store_id', 'customer', '0', '<?php echo $this->__('Default Values') ?>');
     //showOption('profile_direction');
     changeDirection();
+    
+    for (var i = 0; i < profilePlus.length; i++) {
+        var prof = profilePlus[i];
+        for (var ii = 0; ii < prof.field.length; ii++) {
+            if (prof.profile === $('profile_entity_type').value && $(prof.field[ii])) {
+                $(prof.field[ii]).up(0).show();
+            } else {
+                $(prof.field[ii]).up(0).hide();
+            }
+        }
+    }
 }
 
 
@@ -245,6 +260,18 @@ Event.observe(window, 'load', function(){
                 <input class="required-entry input-text" id="profile_decimal_separator" name="gui_data[import][decimal_separator]" value="<?php echo (($separator = $this->getValue('gui_data/import/decimal_separator')) ? $separator : '.') ?>"/>
             </span>
         </span>
+        <span class="field-row">
+            <label for="profile_blomming_published_status"><?php echo $this->__("Set Product Published:") ?></label>
+            <select id="profile_blomming_published_status" name="gui_data[export][profile_blomming_published_status]" class="option-control">
+                <option value="0"<?php echo $this->getSelected('gui_data/export/profile_blomming_published_status', 0) ?>><?php echo $this->__("No") ?></option>
+                <option value="1"<?php echo $this->getSelected('gui_data/export/profile_blomming_published_status', 1) ?>><?php echo $this->__("Yes") ?></option>
+            </select>
+        </span>
+        <span class="field-row">
+            <label for="profile_blomming_categories"><?php echo $this->__("Categories of products profile") ?></label>
+            <textarea id="profile_blomming_categories" name="gui_data[export][profile_blomming_categories]" rows="3" cols="37"><?php echo $this->getValue('gui_data/export/profile_blomming_categories'); ?></textarea>
+        </span>
+        
     </fieldset>
 
     <div class="entry-edit-head">
