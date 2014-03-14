@@ -139,7 +139,16 @@ class MpsSistemi_Gui_Model_Dataflow_Profile extends Mage_Dataflow_Model_Profile 
                 }
             }
         }
-        $mapXml .= '<action type="dataflow/convert_mapper_column" method="map">' . $nl;
+        
+        
+        $mapper = array(
+            'product'=>'dataflow/convert_mapper_column',
+            'customer'=>'dataflow/convert_mapper_column',
+            'product_blomming'=>'mpsgui/converter_catalog_blomming_dataflow_mapper_column',
+
+        );
+        
+        $mapXml .= '<action type="'. $mapper[$this->getEntityType()] . '" method="map">' . $nl;
         $map = $p['map'][$this->getEntityType()];
         if (sizeof($map['db']) > 0) {
             $from = $map[$import?'file':'db'];
@@ -157,13 +166,17 @@ class MpsSistemi_Gui_Model_Dataflow_Profile extends Mage_Dataflow_Model_Profile 
             $mapXml .= '    <var name="_only_specified">' . $p['map']['only_specified'] . '</var>' . $nl;
             //$mapXml .= '    <var name="map">' . $nl;
             $parseFileXmlInter .= '    <var name="_only_specified">' . $p['map']['only_specified'] . '</var>' . $nl;
-        }
+        }                
+        
+        //entity type
+        $mapXml .= '    <var name="_entity_type">' . $this->getEntityType() . '</var>' . $nl;        
+        $parseFileXmlInter .= '    <var name="_entity_type">' . $this->getEntityType() . '</var>' . $nl;
         $mapXml .= '</action>' . $nl . $nl;
 
         $parsers = array(
             'product'=>'catalog/convert_parser_product',
             'customer'=>'customer/convert_parser_customer',
-            'product_blomming'=>'catalog/convert_parser_product',
+            'product_blomming'=>'mpsgui/converter_catalog_blomming_parser_product',
         );
 
         if ($import) {
@@ -184,13 +197,24 @@ class MpsSistemi_Gui_Model_Dataflow_Profile extends Mage_Dataflow_Model_Profile 
                 $parseDataXml .= '    <var name="url_field"><![CDATA['
                     . $p['export']['add_url_field'] . ']]></var>' . $nl;
             }
+            
+            //Variabili per il parser
+            switch ($this->getEntityType()) {
+                case "product_blomming":
+                        $parseDataXml .= '    <var name="published"><![CDATA['.$this->getdata('gui_data/export/profile_blomming_published_status').']]></var>' . $nl;
+                        $parseDataXml .= '    <var name="categories"><![CDATA['.$this->getdata('gui_data/export/profile_blomming_categories').']]></var>' . $nl;
+                        $parseDataXml .= '    <var name="filter/categories"><![CDATA['. $p[$this->getEntityType()]['filter']['category'] .']]></var>' . $nl;
+                    break;
+                default:
+            }
+            
             $parseDataXml .= '</action>' . $nl . $nl;
         }
 
         $adapters = array(
             'product'=>'catalog/convert_adapter_product',
             'customer'=>'customer/convert_adapter_customer',
-            'product_blomming'=>'mpsgui/converter_adapter_catalog_blomming_product',
+            'product_blomming'=>'mpsgui/converter_catalog_blomming_adapter_product',
         );
 
         if ($import) {
