@@ -66,7 +66,7 @@ class MpsSistemi_Gui_Helper_Data extends Mage_Core_Helper_Abstract {
             
             switch ($k) {
                 case "product_blomming":
-                    $newData[$k] = Mage::Helper('mpsgui/blomming')->NomalizePropductFilter($v);
+                    $newData[$k] = Mage::Helper('mpsgui/blomming')->NomalizeProductFilter($v);
                     break;
                 default:
                     $newData[$k] = $v;
@@ -76,6 +76,28 @@ class MpsSistemi_Gui_Helper_Data extends Mage_Core_Helper_Abstract {
         }
 
         return $newData;
+        
+    }
+    
+    public function ValidateGuiData($data) {
+        
+        $validate = "";
+        
+        foreach ($data as $k => $v) {
+            
+            switch ($k) {
+                case "product_blomming":
+                    
+                    $validate .= Mage::Helper('mpsgui/blomming')->ValidateProductFilter($v);
+                    break;
+                default:
+                    $validate .= "";
+                        
+            }
+            
+        }
+
+        return $validate;
         
     }
     

@@ -29,7 +29,9 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Dataflow_Mapper_Column
     
     public function map() {
         
-        $attributesToSelect = array(        
+        $cardinality = Mage::Registry('_mpsgui_cardinality');
+        
+        $attributesToSelect = array(   
             "sku"               => "sku"               ,
             "image"             => "img"               ,
             "img1"              => "img1"              ,
@@ -46,6 +48,15 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Dataflow_Mapper_Column
             "collections"       => "collections"       ,
             "published_blomming"=> "published"         ,
         );
+        
+        if ($cardinality != null) {
+            $attributesToSelect = array_merge( array("sku_group" => "sku_group") , $attributesToSelect);
+            $newField = array();
+            foreach ($cardinality as $field) {
+                $newField[$field] = $field;                
+            }
+            $attributesToSelect = array_merge($attributesToSelect, $newField );
+        }
         
         $this->setVar('_only_specified', true);
         $this->setVar('map', $attributesToSelect);

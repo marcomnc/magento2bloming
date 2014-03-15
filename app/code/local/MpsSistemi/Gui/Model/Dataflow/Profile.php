@@ -27,6 +27,13 @@ class MpsSistemi_Gui_Model_Dataflow_Profile extends Mage_Dataflow_Model_Profile 
     
     protected function _beforeSave()
     {
+
+        if (($msg = Mage::Helper('mpsgui')->ValidateGuiData($this->getData('gui_data'))) !== "") {
+                    
+            Mage::getSingleton('adminhtml/session')->addError("Invalid Data\n $msg");        
+            $this->_dataSaveAllowed = false;
+        
+        }
                 
         $this->setData('gui_data', Mage::Helper('mpsgui')->NormalizeGuiData($this->getData('gui_data')));
         parent::_beforeSave();               
@@ -205,6 +212,7 @@ class MpsSistemi_Gui_Model_Dataflow_Profile extends Mage_Dataflow_Model_Profile 
                         $parseDataXml .= '    <var name="published"><![CDATA['.$this->getdata('gui_data/export/profile_blomming_published_status').']]></var>' . $nl;
                         $parseDataXml .= '    <var name="categories"><![CDATA['.$this->getdata('gui_data/export/profile_blomming_categories').']]></var>' . $nl;
                         $parseDataXml .= '    <var name="filter/categories"><![CDATA['. $p[$this->getEntityType()]['filter']['category'] .']]></var>' . $nl;
+                        $parseDataXml .= '    <var name="filter/type"><![CDATA['. $p[$this->getEntityType()]['filter']['type'] .']]></var>' . $nl;
                     break;
                 default:
             }

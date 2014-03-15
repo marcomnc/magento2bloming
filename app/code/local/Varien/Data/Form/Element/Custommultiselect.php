@@ -26,7 +26,8 @@ class Varien_Data_Form_Element_Custommultiselect extends Varien_Data_Form_Elemen
     public function getElementHtml()
     {
         $this->addClass('select custom-multiselect');        
-        $html  = '<div id="'.$this->getHtmlId().'" class="custom-multiselect-container">';
+        $html  = $this->_getStyle();
+        $html .= '<div id="'.$this->getHtmlId().'" class="custom-multiselect-container">';
         $html .= $this->getScriptHtml();
         $html .= '<ul '.$this->serialize($this->getHtmlAttributes()).'>'."\n";
         
@@ -125,6 +126,68 @@ class Varien_Data_Form_Element_Custommultiselect extends Varien_Data_Form_Elemen
         $result .= '    }' . "\n";
         $result .= '</script>' . "\n";
         return $result;
+    }
+    
+    protected function _getStyle() {
+ 
+        $styleHtml = "<style>";
+        $styleHtml .= "ul.custom-multiselect  {                                \n"; 
+        $styleHtml .= "  width: 278px;                                         \n"; 
+        $styleHtml .= "  height: 208px;                                        \n"; 
+        $styleHtml .= "  overflow-y: auto;                                     \n"; 
+        $styleHtml .= "  overflow-x: hidden;                                   \n"; 
+        $styleHtml .= "  list-style: none;                                     \n"; 
+        $styleHtml .= "  padding: 0;                                           \n"; 
+        $styleHtml .= "  border: 1px solid #CCC;                               \n"; 
+        $styleHtml .= "}                                                       \n"; 
+        $styleHtml .= ".entry-edit .fieldset ul.custom-multiselect li {        \n"; 
+        $styleHtml .= "    margin: 0px;                                        \n"; 
+        $styleHtml .= "    border-bottom: 1px solid #ddd                       \n"; 
+        $styleHtml .= "}                                                       \n"; 
+        $styleHtml .= "ul.custom-multiselect  li label{                        \n"; 
+        $styleHtml .= "  display: block;                                       \n"; 
+        $styleHtml .= "  padding-left: 26px;                                   \n"; 
+        $styleHtml .= "  color: #000;                                          \n"; 
+        $styleHtml .= "  outline: none;                                        \n"; 
+        $styleHtml .= "  position: relative;                                   \n"; 
+        $styleHtml .= "}                                                       \n"; 
+        $styleHtml .= "ul.custom-multiselect  li label:hover{                  \n"; 
+        $styleHtml .= "  color: #000;                                          \n"; 
+        $styleHtml .= "  background-color: #EEE;                               \n"; 
+        $styleHtml .= "}                                                       \n"; 
+        $styleHtml .= "ul.custom-multiselect  li label.selected{               \n"; 
+        $styleHtml .= "  font-weight: bold;                                    \n"; 
+        $styleHtml .= "  background-color: #CCC;                               \n"; 
+        $styleHtml .= "}                                                       \n"; 
+        $styleHtml .= "ul.custom-multiselect  li label .checkbox{              \n"; 
+        $styleHtml .= "  position: absolute;                                   \n"; 
+        $styleHtml .= "  top: 2px;                                             \n"; 
+        $styleHtml .= "  left: 2px;                                            \n"; 
+        $styleHtml .= "}                                                       \n"; 
+        $styleHtml .= "                                                        \n"; 
+        $styleHtml .= ".custom-multiselect-container .action {                 \n"; 
+        $styleHtml .= "    margin-top: 5px;                                    \n"; 
+        $styleHtml .= "    width: 280px;                                       \n"; 
+        $styleHtml .= "}                                                       \n"; 
+        $styleHtml .= "                                                        \n"; 
+        $styleHtml .= ".custom-multiselect-container button.delete,            \n"; 
+        $styleHtml .= ".custom-multiselect-container button.save {             \n"; 
+        $styleHtml .= "    padding-left: 2px;                                  \n"; 
+        $styleHtml .= "    float: right;                                       \n"; 
+        $styleHtml .= "    margin-left: 5px                                    \n"; 
+        $styleHtml .= "}                                                       \n"; 
+        $styleHtml .= "                                                        \n"; 
+        $styleHtml .= ".custom-multiselect-container button.delete span,       \n"; 
+        $styleHtml .= ".custom-multiselect-container button.save span {        \n"; 
+        $styleHtml .= "    padding-left: 15px;                                 \n"; 
+        $styleHtml .= "}                                                       \n"; 
+        $styleHtml .= "                                                        \n"; 
+        $styleHtml .= ".custom-multiselect-container button {                  \n"; 
+        $styleHtml .= "    padding: 1px;                                       \n"; 
+        $styleHtml .= "}						       \n";
+        $styleHtml .= "</style>";
+        
+        return $styleHtml;
     }
 }
 

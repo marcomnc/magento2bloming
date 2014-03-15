@@ -61,7 +61,7 @@ class MpsSistemi_Gui_Block_Adminhtml_System_Convert_Gui_Edit_Tab_Wizard extends 
                 'value'     => $this->getData('gui_data/product_blomming/filter/category'),
             ));
         $form = new Varien_Data_Form();
-        return $field->setForm($form->setHtmlIdPrefix('product_filter_'))->toHtml();
+        return $field->setForm($form->setHtmlIdPrefix('product_filter_category'))->toHtml();
         
     }     
         

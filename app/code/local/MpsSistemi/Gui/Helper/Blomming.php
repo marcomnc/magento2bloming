@@ -29,7 +29,7 @@ class MpsSistemi_Gui_Helper_Blomming extends MpsSistemi_Gui_Helper_Data {
      * Normalizzo il filtro prodottiper blomming
      * @param array $filter
      */
-    public function NomalizePropductFilter($filter) {
+    public function NomalizeProductFilter($filter) {
         
         $fCat = '';
         if (isset($filter['filter']['category'])) {
@@ -41,4 +41,16 @@ class MpsSistemi_Gui_Helper_Blomming extends MpsSistemi_Gui_Helper_Data {
         return $filter;
     }
     
+    public function ValidateProductFilter($filter) {
+        
+        $validate = "";
+        
+        if (($filter['filter']['type'] === 0) || 
+            ($filter['filter']['type'] != Mage_Catalog_Model_Product_Type::TYPE_SIMPLE && 
+             $filter['filter']['type'] != Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE)) {
+            $validate .= $this->__('Product Type not allowed. Only Simple or Configurable ');
+        }
+                
+        return $validate;
+    }
 }

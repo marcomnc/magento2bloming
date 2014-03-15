@@ -28,6 +28,9 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Parser_Product
     
     protected $_myAttributeException = array('final_price');
     
+    protected $_cardinality = null;
+
+
     /**
      * Override funzione standard
      * Unparse (prepare data) loaded products
@@ -44,6 +47,14 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Parser_Product
                 ->load($entityId);
             $this->setProductTypeInstance($product);
             /* @var $product Mage_Catalog_Model_Product */
+            
+            if ($product->getTypeId() != $this->getVar('filter/type')) {
+                
+                throw $this->addException(
+                    Mage::helper('mpsgui')->__('Invalid type in product ' . $product->getSku()),
+                    Varien_Convert_Exception::FATAL
+                );
+            }
             
             // Simulo il calcolo del catalogo
             // Se lo store è l'admin non funziona
@@ -217,20 +228,105 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Parser_Product
                 }
             }
             
-            
-//echo "<pre>";
-//print_r($row);
-//die();
             $batchExport = $this->getBatchExportModel()
                 ->setId(null)
                 ->setBatchId($this->getBatchModel()->getId())
                 ->setBatchData($row)
                 ->setStatus(1)
                 ->save();
+            
+            if ($this->getVar('filter/type') == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+                
+                $rows = $this->_parseConfigurable($row, $product);
+                
+                foreach ($rows as $r) {
+                    $batchExport = $this->getBatchExportModel()
+                    ->setId(null)
+                    ->setBatchId($this->getBatchModel()->getId())
+                    ->setBatchData($r)
+                    ->setStatus(1)
+                    ->save();
+                }                                
+                
+            } 
             $product->reset();
+        }
+        
+        if ($this->_cardinality != null) {
+            Mage::unregister('_mpsgui_cardinality');
+            Mage::register('_mpsgui_cardinality', $this->_cardinality);
         }
 
         return $this;
+    }
+    
+    // Per ogni configubrabile creo l'elenco dei semplici
+    protected function _parseConfigurable($row, $configurable) {
+        
+        $newRow = array();
+        
+        $row['sku_group'] = $row['sku'];
+        $row['sku'] = '';
+        
+        $cardinality = $this->_getCardinality($configurable);
+        
+        $childProducts = Mage::getModel('catalog/product_type_configurable')->getChildrenIds($configurable->getId());
+
+        foreach ($childProducts[0] as $childId) {
+            $curRow = $row;
+            $simpleProduct = Mage::getModel('catalog/product')->Load($childId);            
+
+            foreach ($cardinality as $field) {
+        
+                $attribute = $this->getAttribute($field);                
+                $value = $simpleProduct->getData($field);                
+                if ($attribute->usesSource()) {
+                    $option = $attribute->getSource()->getOptionText($value);
+                    if ($value && empty($option) && $option != '0') {
+                        $this->addException(
+                            Mage::helper('catalog')->__('Invalid option ID specified for %s (%s), skipping the record.', $field, $value),
+                            Mage_Dataflow_Model_Convert_Exception::ERROR
+                        );
+                        continue;
+                    }
+                    if (is_array($option)) {
+                        $value = join(self::MULTI_DELIMITER, $option);
+                    } else {
+                        $value = $option;
+                    }
+                    unset($option);
+                } elseif (is_array($value)) {
+                    continue;
+                }
+                
+                $curRow[$field] = $value;
+                
+                //Aggiorno la quantity
+                $stock = $simpleProduct->getStockItem();
+                $curRow['qty'] = $stock->getQty();
+                
+                //Aggiorno il prezzo @@Todo
+                //$row['price'] = $simpleProduct->getPrice();
+                //$row['final_price'] = $simpleProduct->getFinalPrice();
+            }
+            
+            $newRow[] = $curRow;
+        }
+                        
+        return $newRow;
+    }
+    
+    protected function _getCardinality($configurable) {
+
+        if ($this->_cardinality == null) {
+            $productAttributeOptions = $configurable->getTypeInstance(true)->getConfigurableAttributesAsArray($configurable);
+            foreach ($productAttributeOptions as $attr) {
+                $this->_cardinality[] = $attr['attribute_code'];
+            }
+        }
+        
+        return $this->_cardinality;
+            
     }
 
 }
