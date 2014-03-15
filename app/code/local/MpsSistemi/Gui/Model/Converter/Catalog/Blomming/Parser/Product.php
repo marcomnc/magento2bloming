@@ -140,7 +140,7 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Parser_Product
             $row['description'] = ($product->getData('description_blomming') == '') ? $row['description'] : $product->getData('description_blomming');
             
             //Shipping_method 
-            $row['shipping_profile'] = ($product->getData('shipping_profile_blomming')) == '' ? Mage::getStoreConfig('mpsgui/blomming/product_shipping_profile') : $product->getData('shipping_profile_blomming');
+            $row['shipping_profile'] = ($product->getData('shipping_profile_blomming')) == '' ? Mage::getStoreConfig('mpsgui/blomming/product_shipping_profile', $this->getStore()->getId()) : $product->getData('shipping_profile_blomming');
             
             //Categories
             $categories = "";
@@ -163,12 +163,49 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Parser_Product
             }
             
             if ($categories == "") {
-                $categories = Mage::getStoreConfig('mpsgui/blomming/product_category');
+                $categories = Mage::getStoreConfig('mpsgui/blomming/product_category',$this->getStore()->getId());
             }
             
             $row['categories'] = $categories;
             
-            $row['collections'] = (Mage::getStoreConfig('mpsgui/blomming/export_collection')) ? $collections : '';
+            $row['collections'] = (Mage::getStoreConfig('mpsgui/blomming/export_collection',$this->getStore()->getId())) ? $collections : '';
+            
+            //Recupero i tag del prodotto
+            $tags = "";
+            $model = Mage::getModel('tag/tag')
+                ->getResourceCollection()
+                ->addPopularity()
+                ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+                ->addProductFilter($product->getId())
+                ->setFlag('relation', true)
+                ->addStoreFilter($this->getStore()->getId())
+                ->setActiveFilter()
+                ->load();
+            if (count($model->getItems()) > 0) {
+                
+                foreach ($model->getItems() as $tag) {
+                    $tags .= (($tags != "") ? "," : "") . $tag->getName();
+                }
+            }
+            $row["tags"] = $tags;
+            
+            
+            // Immagini
+            
+            $row['img1'] = "";
+            $row['img2'] = "";
+            $row['img3'] = "";
+            
+            $i = 0;
+            foreach ($product->getMediaGalleryImages() as $image) {
+                $i++;
+                $row["img$i"] = $image->getUrl();
+                if ($i == 3) {
+                    break;
+                }
+            }
+            
+            
 //echo "<pre>";
 //print_r($row);
 //die();

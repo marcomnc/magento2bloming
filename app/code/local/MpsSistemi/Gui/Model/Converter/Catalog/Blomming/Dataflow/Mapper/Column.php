@@ -31,10 +31,10 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Dataflow_Mapper_Column
         
         $attributesToSelect = array(        
             "sku"               => "sku"               ,
-            "aa"                => "img"               ,
-            "bb"                => "img1"              ,
-            "cc"                => "img2"              ,
-            "dd"                => "img3"              ,
+            "image"             => "img"               ,
+            "img1"              => "img1"              ,
+            "img2"              => "img2"              ,
+            "img3"              => "img3"              ,
             "name"              => "title"             ,
             "description"       => "description"       ,
             "qty"               => "quantity"          ,
