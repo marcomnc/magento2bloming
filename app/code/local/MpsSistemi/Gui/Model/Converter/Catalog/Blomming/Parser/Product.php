@@ -132,6 +132,18 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Parser_Product
                 }
             }
             
+            //Coreggo la quantità deve essere intera! l'arrotondo per difetto
+            $row['qty'] = Zend_Locale_Format::toNumber(floor($row['qty']),array('precision' => 0));
+            
+            //Correggo i prezzi in formato italiano
+            $row['final_price'] = Zend_Locale_Format::toNumber($row['final_price'], array(
+                                                                    'locale' => 'it',
+                                                                    'precision' => 2));
+            $row['price'] = Zend_Locale_Format::toNumber($row['price'], array(
+                                                                    'locale' => 'it',
+                                                                    'precision' => 2));
+            
+            
             //Imposto se deve essere pubblicato o meno
             $row['published_blomming'] = ($this->getVar('published')) ? 'yes' : 'no';
             

@@ -89,41 +89,42 @@ class MpsSistemi_Gui_Model_Dataflow_Profile extends Mage_Dataflow_Model_Profile 
         }
         
         $forcedCSVParse = array(
-            'product_blomming'=>'',
+            'product_blomming'  => array('type' => 'csv',
+                                         'delimiter' => ';', 
+                                         'enclose' => '"', 
+                                         'fieldnames' => true),
+            'product'           => array('type' => $p['parse']['type'],
+                                         'delimiter' => $p['parse']['delimiter'] , 
+                                         'enclose' => $p['parse']['enclose'],
+                                         'fieldnames' => $p['parse']['fieldnames']),
+            'customer'          => array('type' => $p['parse']['type'],
+                                         'delimiter' => $p['parse']['delimiter'] , 
+                                         'enclose' => $p['parse']['enclose'],
+                                         'fieldnames' => $p['parse']['fieldnames']),
             );
 
-        if (!isset($forcedCSVParse[$this->getEntityType()])) {
-            switch ($p['parse']['type']) {
-                case 'excel_xml':
-                    $parseFileXml = '<action type="dataflow/convert_parser_xml_excel" method="'
-                        . ($import ? 'parse' : 'unparse') . '">' . $nl;
-                    $parseFileXml .= '    <var name="single_sheet"><![CDATA['
-                        . ($p['parse']['single_sheet'] !== '' ? $p['parse']['single_sheet'] : '')
-                        . ']]></var>' . $nl;
-                    break;
+        switch ($forcedCSVParse[$this->getEntityType()]['type']) {
+            case 'excel_xml':
+                $parseFileXml = '<action type="dataflow/convert_parser_xml_excel" method="'
+                    . ($import ? 'parse' : 'unparse') . '">' . $nl;
+                $parseFileXml .= '    <var name="single_sheet"><![CDATA['
+                    . ($p['parse']['single_sheet'] !== '' ? $p['parse']['single_sheet'] : '')
+                    . ']]></var>' . $nl;
+                break;
 
-                case 'csv':
-                    $parseFileXml = '<action type="dataflow/convert_parser_csv" method="'
-                        . ($import ? 'parse' : 'unparse') . '">' . $nl;
-                    $parseFileXml .= '    <var name="delimiter"><![CDATA['
-                        . $p['parse']['delimiter'] . ']]></var>' . $nl;
-                    $parseFileXml .= '    <var name="enclose"><![CDATA['
-                        . $p['parse']['enclose'] . ']]></var>' . $nl;
-                    break;
-            }
-            $parseFileXml .= '    <var name="fieldnames">' . $p['parse']['fieldnames'] . '</var>' . $nl;
-            $parseFileXmlInter = $parseFileXml;
-            $parseFileXml .= '</action>' . $nl . $nl;
-        } else {
-            $parseFileXml = '<action type="dataflow/convert_parser_csv" method="'
-                . ($import ? 'parse' : 'unparse') . '">' . $nl;
-            $parseFileXml .= '    <var name="delimiter"><![CDATA[,]]></var>' . $nl;
-            $parseFileXml .= '    <var name="enclose"><![CDATA["]]></var>' . $nl;
-            $parseFileXml .= '    <var name="fieldnames">true</var>' . $nl;
-            $parseFileXmlInter = $parseFileXml;
-            $parseFileXml .= '</action>' . $nl . $nl;
-        }        
-
+            case 'csv':
+                $parseFileXml = '<action type="dataflow/convert_parser_csv" method="'
+                    . ($import ? 'parse' : 'unparse') . '">' . $nl;
+                $parseFileXml .= '    <var name="delimiter"><![CDATA['
+                    . $forcedCSVParse[$this->getEntityType()]['delimiter'] . ']]></var>' . $nl;
+                $parseFileXml .= '    <var name="enclose"><![CDATA['
+                    . $forcedCSVParse[$this->getEntityType()]['enclose'] . ']]></var>' . $nl;
+                break;
+        }
+        $parseFileXml .= '    <var name="fieldnames">' . $forcedCSVParse[$this->getEntityType()]['fieldnames'] . '</var>' . $nl;
+        $parseFileXmlInter = $parseFileXml;
+        $parseFileXml .= '</action>' . $nl . $nl;
+        
         $mapXml = '';
 
         if (isset($p['map']) && is_array($p['map']) && !isset($forcedCSVParse[$this->getEntityType()])) {
