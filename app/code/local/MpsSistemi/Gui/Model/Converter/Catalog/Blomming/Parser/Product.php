@@ -178,8 +178,8 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Parser_Product
                     }
                     $collections .= (($collections != "") ? "," : "") . $cat->getName();
                 }
-                
-                $categories .= $category;
+                if (strpos($categories,$category) === false) 
+					$categories .= $category;
             }
             if ($categories == "") {
                 $categories = $this->getVar('categories');
@@ -228,27 +228,38 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Parser_Product
                 }
             }
             
-            $batchExport = $this->getBatchExportModel()
-                ->setId(null)
-                ->setBatchId($this->getBatchModel()->getId())
-                ->setBatchData($row)
-                ->setStatus(1)
-                ->save();
+            
             
             if ($this->getVar('filter/type') == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
                 
                 $rows = $this->_parseConfigurable($row, $product);
                 
-                foreach ($rows as $r) {
-                    $batchExport = $this->getBatchExportModel()
-                    ->setId(null)
-                    ->setBatchId($this->getBatchModel()->getId())
-                    ->setBatchData($r)
-                    ->setStatus(1)
-                    ->save();
-                }                                
-                
-            } 
+				if (sizeof($rows) > 0) {
+				/*
+					$batchExport = $this->getBatchExportModel()
+						->setId(null)
+						->setBatchId($this->getBatchModel()->getId())
+						->setBatchData($row)
+						->setStatus(1)
+						->save();*/
+				
+					foreach ($rows as $r) {
+						$batchExport = $this->getBatchExportModel()
+						->setId(null)
+						->setBatchId($this->getBatchModel()->getId())
+						->setBatchData($r)
+						->setStatus(1)
+						->save();
+					}                                
+				}
+            } else {
+				$batchExport = $this->getBatchExportModel()
+                ->setId(null)
+                ->setBatchId($this->getBatchModel()->getId())
+                ->setBatchData($row)
+                ->setStatus(1)
+                ->save();
+			}			
             $product->reset();
         }
         
@@ -304,13 +315,14 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Parser_Product
                 //Aggiorno la quantity
                 $stock = $simpleProduct->getStockItem();
                 $curRow['qty'] = $stock->getQty();
+				$curRow['qty'] = Zend_Locale_Format::toNumber(floor($curRow['qty']),array('precision' => 0));
                 
                 //Aggiorno il prezzo @@Todo
                 //$row['price'] = $simpleProduct->getPrice();
                 //$row['final_price'] = $simpleProduct->getFinalPrice();
             }
-            
-            $newRow[] = $curRow;
+            if ($curRow['qty'] > 0)
+				$newRow[] = $curRow;
         }
                         
         return $newRow;
