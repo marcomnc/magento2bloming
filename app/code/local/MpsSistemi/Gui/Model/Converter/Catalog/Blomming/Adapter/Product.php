@@ -30,6 +30,37 @@ class MpsSistemi_Gui_Model_Converter_Catalog_Blomming_Adapter_Product extends Ma
      */
     public function load() {
     
+        
         parent::load();
+       
+    }
+    
+    /**
+     * Retrieve not loaded collection
+     *
+     * @param string $entityType
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    protected function _getCollectionForLoad($entityType)
+    {
+        $collection = Mage::getResourceModel($entityType.'_collection')
+            ->setStoreId($this->getStoreId())
+            ->addStoreFilter($this->getStoreId());
+        
+        $category = $this->getVar('filter/category', '');
+        
+        if ($category != '') {
+            $collection->joinField('category_id',
+                                   'catalog/category_product',
+                                   'category_id',
+                                   'product_id=entity_id',
+                                   null,
+                                   'left')
+                       ->addAttributeToFilter('category_id', array('in' => $category));
+            $collection->getSelect()->group('e.entity_id');
+        }
+        
+                
+        return $collection;
     }
 }

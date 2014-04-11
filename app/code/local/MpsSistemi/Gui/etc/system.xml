@@ -67,7 +67,7 @@
                             <show_in_store>0</show_in_store>
                             <validate-alphanum></validate-alphanum>
                             <comment><![CDATA[Rappresenta il profilo di spedizione da associare al prodotto.<br>
-                                Se si voglio associare profili diversi in base al prodotto abilitare l'attributo blomming_shipping_profile.<br>
+                                Se si voglio associare profili diversi in base al prodotto abilitare l'attributo shipping_profile_blomming<br>
                                 Si possono inserire solo Profili di Spedizione già presenti nel proprio Shop Blomming, scritti esattamente nello stesso modo. 
                                 Per vedere i tuoi attuali profili di spedizione o per crearne di nuovi basta andare <a taget="_BLANK" href="http://www.blomming.com/settings/shipping_profiles">qui</a>
                             ]]></comment>                        
